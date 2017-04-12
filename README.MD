@@ -10,13 +10,14 @@ To better work with Apache2, the original catalog app was modified to use
 PostgreSQL/psycopg2, along with other minor modifications.
 
 App address: http://ec2-107-23-27-33.compute-1.amazonaws.com/
-IP Address: 107.23.27.33
+
+IP Address: 107.23.27.33:2200
 
 Version History
 ---------------
 * 4/12/17 - Initial Commit
 
-1. Configuration
+Configuration
 -------------
 
 * Setup SSH Keypair
@@ -93,7 +94,7 @@ Version History
 	- select none of the above for country
 	- select UTC for timezone
 
-2. Installation
+Installation
 ------------
 
 * Update packages:
@@ -127,7 +128,7 @@ Version History
 * Install mod_wsgi into Python:
 	- "sudo pip install mod_wsgi"
 
-3. Site Setup
+Site Setup
 ----------
 
 * Clone linux_deployment branch of the application
