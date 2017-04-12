@@ -1,149 +1,211 @@
-List of Changes
+This repository contains the instructions to configure a server to host an 
+application on Amazon Lightsail. Following the instructions closely should 
+result in creating a functional web server which functions similarly. The 
+Lightsail server was initialized as a default Ubuntu system. Apache2 was 
+installed to serve the http. mod_wsgi was used to server the application. 
+The original app was a catalog of guitars which was originally configured 
+to run on a [Vagrant](https://www.vagrantup.com/) virtual machine. The 
+catalog app used a combination of Python 2.7, Flask, SQLalchemy, and SQLite. 
+To better work with Apache2, the original catalog app was modified to use 
+PostgreSQL/psycopg2, along with other minor modifications.
+
+App address: http://ec2-107-23-27-33.compute-1.amazonaws.com/
+IP Address: 107.23.27.33
+
+Version History
 ---------------
-* Change port to 2200
-	- User Amazon lightsail control panel
-* Created user grader
-	- sudo adduser grader
-* Gave sudo to grader
-	- sudo cp /etc/sudoers.d/ubuntu /etc/sudoers.d/grader
-	- sudo nano /etc/sudoers.d/grader
-	- write: "grader ALL=(ALL) NOPASSWD:ALL"
-* Created SSH key pair for grader and added public key to .ssh/authorized_keys
-	- go to lightsail account page
-	- click create key pair
-	- name keypair 'grader' and save to directory that you log in from
-	- copy contents to grader.pub
-	- (logged into server):
-		- mkdir .ssh
-		- touch .ssh/authorized_keys
-		- nano .ssh/authorized_keys
-		- paste contents of grader.pub from clipboard and save (^X)
+* 4/12/17 - Initial Commit
+
+1. Configuration
+-------------
+
+* Setup SSH Keypair
+	- Generate SSH Keypair on local machine by opening up command prompt:
+		- "ssh-keygen"
+		- Enter path to where the keypair will be generated
+		- Hit 'enter' to have no passphrase, then again
+* Create Amazon Lightsail instance
+	- In browser, under 'resources', click 'Create Instance'
+		- For 'Pick your instance image', choose 'OS Only' and 'Ubuntu'
+		- Under 'SSH key pair manager', select 'Upload key pair', 
+			then choose the public key your created (with .pub extension)
+		- For 'Choose your instance plan', choose '$5 month'
+		- Under 'Name your instance', give the server a valid name
+		- Click 'Create'
+* Log into the server with SSH from the command line
+	- Enter the following with "sshkey" being whatever you named your keypair, 
+		and the numbers following "@" as the IP address: "ssh ubuntu@107.23.27.33 -p 22 -i sshkey"
+	- Type 'yes' if promted about the authenticity of the host, then hit enter
+* Allow SSH connections on port 2200 and disable password based authentication
+	- In the Lightsail console in the browser, go to 'Networking' tab under server instance
+	- Click 'add another'
+	- Select options: Application: 'Custom', Protocol: 'TPC', Port range: '2200'
+	- Edit the SSH daemon configuration file:
+		- In the shell, type "sudo nano sshd_config"
+		- Change the line to "PasswordAuthentication no"
+		- Change the line to "Port 2200"
+		- Save/exit Nano
+		- "sudo service ssh restart" 
+* Configure Uncomplicated Firewall
+	- "sudo ufw default deny incoming"
+	- "sudo ufw default allow outgoing"
+	- "sudo ufw allow ssh"
+	- "sudo ufw allow 2200/tcp"
+	- "sudo ufw allow www"
+	- "sudo ufw allow ntp"
+	- "sudo ufw enable"
+* Create user grader
+	- "sudo adduser grader"
+	- Enter a password and retype it when promted
+	- Leave values for personal info blank
+* Give sudo to grader
+	- Create a sudoers file for grader
+		- "sudo touch /etc/sudoers.d/grader"
+		- "sudo nano /etc/sudoers.d/grader"
+		- write "grader ALL=(ALL) NOPASSWD:ALL" and save/exit nano
+		- "sudo chmod 0440 /etc/sudoers.d/grader" to change permissions
+* Create an SSH key pair for grader and add public key to /home/grader/.ssh/authorized_keys
+	- Logout (ctrl+D)
+	- Generate SSH Keypair on local machine by opening up command prompt:
+		- "ssh-keygen"
+		- Enter path to where the keypair will be generated
+		- Hit 'enter' to have no passphrase, then again
+	- Log in as ubuntu: "ssh ubuntu@107.23.27.33 -p 2200 -i sshkey"
+	- Install public key for grader
+		- "sudo mkdir /home/grader/.ssh"
+		- "sudo touch /home/grader/.ssh/authorized_keys"
+		- "sudo nano /home/grader/.ssh/authorized_keys"
+		- paste contents of grader.pub (or whatever you named the keypair) from clipboard and save/exit
 * Log in as grader
 	- (from the directory with the private SSH key):
 		- ssh grader@184.73.137.31 -p 2200 -i grader
-* Change file permissions on SSH directory and file
-	- (From the home directory of grader):
-		- chmod 700 .ssh
-		- chmod 644 .ssh/authorized_keys
-* Disable password based logins
-	- sudo nano /etc/ssh/sshd_config
-	- change 'PasswordAuthentication yes' to 'PasswordAuthentication no'
-* Restart SSH service
-	- sudo service ssh restart
+* Change file permissions and ownership on SSH directorys and files
+	- "sudo chmod 700 /home/ubuntu/.ssh"
+	- "sudo chmod 644 /home/ubuntu/.ssh/authorized_keys"
+	- "sudo chmod 700 /home/grader/.ssh"
+	- "sudo chmod 644 /home/grader/.ssh/authorized_keys"
+	- "sudo chown grader /home/grader/.ssh"
+	- "sudo chgrp grader /home/grader/.ssh"
+	- "sudo chown grader /home/grader/.ssh/authorized_keys"
+	- "sudo chgrp grader /home/grader/.ssh/authorized_keys"
 * Change timezone to UTC
-	- sudo dpkg-reconfigure tzdata to UTC
+	- "sudo dpkg-reconfigure tzdata"
 	- select none of the above for country
 	- select UTC for timezone
+
+2. Installation
+------------
+
+* Update packages:
+	- "sudo apt-get update"  
 * Install python 2.7:
-	- sudo apt-get install python2.7 (yes)
-		- http://askubuntu.com/questions/101591/how-do-i-install-python-2-7-2-on-ubuntu (michael_n)
+	- "sudo apt-get install python2.7"
 * Install pip:
-	- sudo apt-get install python-pip
-	- pip install --upgrade pip
+	- "sudo apt-get install python-pip"
+	- "pip install --upgrade pip"
 * Install apache2:
-	- sudo apt-get install apache2 (yes)
-	- sudo apt-get install apache2-dev (yes) (https://github.com/GrahamDumpleton/mod_wsgi)
+	- "sudo apt-get install apache2"
+	- "sudo apt-get install apache2-dev"
 * Install python wsgi dependencies:
-	- sudo apt-get install python-setuptools (yes)
-	- sudo apt-get install libapache2-mod-wsgi
-	- restart apache2: sudo service apache2 restart (http://blog.udacity.com/2015/03/step-by-step-guide-install-lamp-linux-apache-mysql-python-ubuntu.html)
+	- "sudo apt-get install python-setuptools"
+	- "sudo apt-get install libapache2-mod-wsgi"
+	- "restart apache2: sudo service apache2 restart"
 * Install PostgreSQL:
-	- sudo apt-get install postgresql
-	- login: sudo -i -u postgres
-		- postgresql prompt: psql
+	- "sudo apt-get install postgresql"
+	- login: "sudo -i -u postgres"
+		- postgresql prompt: "psql"
+		- list roles: "\du"
 		- logout: ctrl+D
 * Install sqlalchemy:
-	- sudo apt-get install python-sqlalchemy (yes)
+	- "sudo apt-get install python-sqlalchemy"
+* Install psycopg2:
+	- "sudo apt-get install python-psycopg2"
 * Install Flask:
-	- sudo pip install Flask
-		- not owned by current user error
-	- sudo pip install --upgrade google-api-python-client
-		- not owned by current user error
-	- pip install requests
-* Install virtualenv
-	- sudo pip install virtualenv
-* Fix Invalid mutex directory error:
-	- source /etc/apache2/envvars	(http://askubuntu.com/questions/800214/invalid-mutex-directory-in-argument-fileapache-lock-dir)
+	- "sudo pip install Flask"
+	- "sudo pip install --upgrade google-api-python-client"
+	- "sudo pip install requests"
 * Install mod_wsgi into Python:
-	- sudo pip install mod_wsgi
-	- Test mod_wsgi:
-		- mod_wsgi-express start-server
-		- ctrl+c
-	- (https://github.com/GrahamDumpleton/mod_wsgi)
-* in /var/www/html:
-	- sudo git clone https://github.com/EdwardSchaefer/Item-Catalog.git
-	- cd Item-Catalog
+	- "sudo pip install mod_wsgi"
 
-	///maybe
-	- sudo mkdir wsgiscripts
-	- cd wsgiscripts
-	(in /var/www/html/wsgiscripts):
-		- sudo touch catalog.wsgi
-		- sudo nano catalog.wsgi:
-			>def application(environ, start_response):
-		    >status = '200 OK'
-		    >output = b'Hello World!'
+3. Site Setup
+----------
 
-		    >response_headers = [('Content-type', 'text/plain'),
-		    >                    ('Content-Length', str(len(output)))]
-		    >start_response(status, response_headers)
+* Clone linux_deployment branch of the application
+	- "cd /var/www/html"
+	- "sudo git clone -b linux_deployment https://github.com/EdwardSchaefer/Item-Catalog.git catalog"
 
-		    >return [output]
-	///
-
-	/// maybe
-	- sudo touch catalog.wsgi
-	- sudo nano catalog.wsgi
-		- import sys
-		- sys.path.insert(0, "/var/www/html/Item-Catalog/")
-		- 'import app as application'
-	///
-
-	///maybe
-	- sudo rm README.md
-	- sudo mv * ..
-	- sudo mv .git ..
-	- cd ..
-	- sudo rm -rf Item-Catalog
-	///
-
+* Create a wsgi script:	
+	- "sudo touch catalog.wsgi"
+	- "sudo nano catalog.wsgi" and enter the following code:
+		>#!/usr/bin/python
+		>import sys
+		>import logging
+		>logging.basicConfig(stream=sys.stderr)
+		>sys.path.insert(0,"/var/www/html/")
+		>
+		>from catalog import app as application
+		>application.secret_key = 'super_secret_key'
 * Setup a site for the app in apache:
-	- (In etc/apache2/sites-available):
-		- sudo cp 000-default.conf catalog.conf
-		- sudo nano catalog.conf
-			>DocumentRoot /var/www/html/Item-Catalog
+	- "cd /etc/apache2/sites-available"
+	- "sudo touch catalog.conf"
+	- "sudo nano catalog.conf" and enter the following code:
+		><VirtualHost *:80>
+		>        ServerName 107.23.27.33
+		>        ServerAdmin admin@107.23.27.33
+		>        WSGIScriptAlias / /var/www/html/catalog.wsgi
+		>        <Directory /var/www/html/wsgiscripts/>
+		>                Order allow,deny
+		>                Allow from all
+		>        </Directory>
+		>        Alias /static /var/www/html/catalog/static
+		>        <Directory /var/www/html/catalog/static/>
+		>                Order allow,deny
+		>                Allow from all
+		>        </Directory>
+		>        ErrorLog ${APACHE_LOG_DIR}/error.log
+		>        LogLevel warn
+		>        CustomLog ${APACHE_LOG_DIR}/access.log combined
+		></VirtualHost>
 
-			><Directory /var/www/html/Item-Catalog>
-			>	Order allow,deny
-			>	Allow from all
-			></Directory>
+	- "sudo a2ensite catalog.conf"
+		(to disable: "sudo a2dissite catalog.conf")
+	- "sudo service apache2 reload"
 
-			>WSGIScriptAlias /Item-Catalog /var/www/html/wsgiscripts/catalog.wsgi
+* Configure PostgreSQL
+	- "sudo -i -u postgres"
+	- "psql"
+	- "CREATE USER catalog WITH PASSWORD 'test123';"
+	- "ALTER USER catalog CREATEDB;"
+	- "CREATE DATABASE guitars;"
+	- ctrl+D to logout of the psql prompt
+	- ctrl+D to logout of the postgres account
 
-			><Directory /var/www/html/wsgiscripts>
-			>	Order allow,deny
-			>	Allow from all
-			></Directory>
-
-		- sudo service apache2 restart
-		- sudo a2ensite catalog.conf
-			(to disable: sduo a2dissite catalog.conf)
-		- sudo service apache2 reload
-		- list active sites: apache2ctl -S
-
-	- (http://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html)
+* If neccessary, use these commands to operate postgresql:
+	- show connections on guitars: "SELECT * FROM pg_stat_activity WHERE datname = 'guitars';"
+	- terminate connections: "SELECT pg_terminate_backend (pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'guitars';"
+	- drop guitars: "DROP DATABASE guitars;"
 
 * setting up the app:
-	- python database_setup.py
-	- sudo python guitars.py
-	- mod_wsgi-express start-server catalog.py
+	- "python database_setup.py"
+	- "sudo python guitars.py"
+	- "sudo python catalog.py"
+
+Changes to original catalog project
+-----------------------------------
+
+* Created "linux_deployment" branch to work on Ubuntu server
+* Configured SQLAlchemy to work with PostgreSQL instead of SQLite
+	- Changed "engine = create_engine('SQLite:///guitars.db') to "engine = create_engine('postgresql+psycopg2://catalog:test123@localhost:5432/guitars')
+* Change description of Jackson guitars bridges to fit within PostgreSQL 50 character limit
+* Changed CLIENT_ID variable to have a full path so it works with wsgi_mod
 
 Sources Used
 ------------
 
-* http://blog.udacity.com/2015/03/step-by-step-guide-install-lamp-linux-apache-mysql-python-ubuntu.html
-* https://discussions.udacity.com/t/project-5-resources/28343
-* https://www.digitalocean.com/community/tutorials/how-to-configure-the-apache-web-server-on-an-ubuntu-or-debian-vps
-* https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-14-04
-* https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps
-* http://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html
+* [A Step by Step Guide to Install LAMP (Linux, Apache, MySQL, Python) on Ubuntu](http://blog.udacity.com/2015/03/step-by-step-guide-install-lamp-linux-apache-mysql-python-ubuntu.html)
+* [How To Configure the Apache Web Server on an Ubuntu or Debian VPS](https://www.digitalocean.com/community/tutorials/how-to-configure-the-apache-web-server-on-an-ubuntu-or-debian-vps)
+* [How To Install and Use PostgreSQL on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-14-04)
+* [How To Secure PostgreSQL on an Ubuntu VPS](https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps)
+* [How To Deploy a Flask Application on an Ubuntu VPS](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps)
+* [mod_wsgi quickstart](http://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html)
+* [Project 5 resources from Kirk Brunson](https://discussions.udacity.com/t/project-5-resources/28343)
