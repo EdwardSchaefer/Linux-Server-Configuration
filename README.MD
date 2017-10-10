@@ -2,7 +2,7 @@ This repository contains the instructions to configure a server to host an
 application on Amazon Lightsail. Following the instructions closely should 
 result in creating a functional web server which functions similarly. The 
 Lightsail server was initialized as a default Ubuntu system. Apache2 was 
-installed to serve the http. mod_wsgi was used to server the application. 
+installed to serve the http. mod_wsgi was used to serve the application. 
 The original app was a catalog of guitars which was originally configured 
 to run on a [Vagrant](https://www.vagrantup.com/) virtual machine. The 
 catalog app used a combination of Python 2.7, Flask, SQLalchemy, and SQLite. 
@@ -16,6 +16,7 @@ IP Address: 107.23.27.33:2200
 Version History
 ---------------
 * 4/12/17 - Initial Commit
+* 10/10/17 - Fix 2 typos
 
 Configuration
 -------------
@@ -80,7 +81,7 @@ Configuration
 * Log in as grader
 	- (from the directory with the private SSH key):
 		- ssh grader@184.73.137.31 -p 2200 -i grader
-* Change file permissions and ownership on SSH directorys and files
+* Change file permissions and ownership on SSH directories and files
 	- "sudo chmod 700 /home/ubuntu/.ssh"
 	- "sudo chmod 644 /home/ubuntu/.ssh/authorized_keys"
 	- "sudo chmod 700 /home/grader/.ssh"
