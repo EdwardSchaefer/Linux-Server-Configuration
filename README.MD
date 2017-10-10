@@ -17,6 +17,7 @@ Version History
 ---------------
 * 4/12/17 - Initial Commit
 * 10/10/17 - Fix 2 typos
+* 10/10/17 - Changed path of sshd_config to full path
 
 Configuration
 -------------
@@ -43,7 +44,7 @@ Configuration
 	- Click 'add another'
 	- Select options: Application: 'Custom', Protocol: 'TPC', Port range: '2200'
 	- Edit the SSH daemon configuration file:
-		- In the shell, type "sudo nano sshd_config"
+		- In the shell, type "sudo nano /etc/ssh/sshd_config"
 		- Change the line to "PasswordAuthentication no"
 		- Change the line to "Port 2200"
 		- Save/exit Nano
