@@ -18,6 +18,7 @@ Version History
 * 4/12/17 - Initial Commit
 * 10/10/17 - Fix 2 typos
 * 10/10/17 - Changed path of sshd_config to full path
+* 10/18/17 - Added double space after block quotes to format them for Markdown
 
 Configuration
 -------------
@@ -140,35 +141,35 @@ Site Setup
 * Create a wsgi script:	
 	- "sudo touch catalog.wsgi"
 	- "sudo nano catalog.wsgi" and enter the following code:
-		>#!/usr/bin/python
-		>import sys
-		>import logging
-		>logging.basicConfig(stream=sys.stderr)
-		>sys.path.insert(0,"/var/www/html/")
-		>
-		>from catalog import app as application
-		>application.secret_key = 'super_secret_key'
+		>#!/usr/bin/python  
+		>import sys  
+		>import logging  
+		>logging.basicConfig(stream=sys.stderr)  
+		>sys.path.insert(0,"/var/www/html/")  
+		>  
+		>from catalog import app as application  
+		>application.secret_key = 'super_secret_key'  
 * Setup a site for the app in apache:
-	- "cd /etc/apache2/sites-available"
-	- "sudo touch catalog.conf"
-	- "sudo nano catalog.conf" and enter the following code:
-		><VirtualHost *:80>
-		>        ServerName 107.23.27.33
-		>        ServerAdmin admin@107.23.27.33
-		>        WSGIScriptAlias / /var/www/html/catalog.wsgi
-		>        <Directory /var/www/html/wsgiscripts/>
-		>                Order allow,deny
-		>                Allow from all
-		>        </Directory>
-		>        Alias /static /var/www/html/catalog/static
-		>        <Directory /var/www/html/catalog/static/>
-		>                Order allow,deny
-		>                Allow from all
-		>        </Directory>
-		>        ErrorLog ${APACHE_LOG_DIR}/error.log
-		>        LogLevel warn
-		>        CustomLog ${APACHE_LOG_DIR}/access.log combined
-		></VirtualHost>
+	- "cd /etc/apache2/sites-available"  
+	- "sudo touch catalog.conf"  
+	- "sudo nano catalog.conf" and enter the following code:  
+		><VirtualHost *:80>  
+		>        ServerName 107.23.27.33  
+		>        ServerAdmin admin@107.23.27.33  
+		>        WSGIScriptAlias / /var/www/html/catalog.wsgi  
+		>        <Directory /var/www/html/wsgiscripts/>  
+		>                Order allow,deny  
+		>                Allow from all  
+		>        </Directory>  
+		>        Alias /static /var/www/html/catalog/static  
+		>        <Directory /var/www/html/catalog/static/>  
+		>                Order allow,deny  
+		>                Allow from all  
+		>        </Directory>  
+		>        ErrorLog ${APACHE_LOG_DIR}/error.log  
+		>        LogLevel warn  
+		>        CustomLog ${APACHE_LOG_DIR}/access.log combined  
+		></VirtualHost>  
 
 	- "sudo a2ensite catalog.conf"
 		(to disable: "sudo a2dissite catalog.conf")
