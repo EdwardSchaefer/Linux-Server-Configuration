@@ -20,6 +20,7 @@ Version History
 * 10/10/17 - Changed path of sshd_config to full path
 * 10/18/17 - Added double space after block quotes to format them for Markdown
 * 10/18/17 - Changed quotes to clarify how to restart Apache
+* 10/18/17 - Used backticks to display closing tags in Markdown
 
 Configuration
 -------------
@@ -161,16 +162,16 @@ Site Setup
 		>        <Directory /var/www/html/wsgiscripts/>  
 		>                Order allow,deny  
 		>                Allow from all  
-		>        </Directory>  
+		>        `</Directory>`  
 		>        Alias /static /var/www/html/catalog/static  
 		>        <Directory /var/www/html/catalog/static/>  
 		>                Order allow,deny  
 		>                Allow from all  
-		>        </Directory>  
+		>        `</Directory>`  
 		>        ErrorLog ${APACHE_LOG_DIR}/error.log  
 		>        LogLevel warn  
 		>        CustomLog ${APACHE_LOG_DIR}/access.log combined  
-		></VirtualHost>  
+		>`</VirtualHost>`  
 
 	- "sudo a2ensite catalog.conf"
 		(to disable: "sudo a2dissite catalog.conf")
