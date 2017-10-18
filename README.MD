@@ -19,6 +19,7 @@ Version History
 * 10/10/17 - Fix 2 typos
 * 10/10/17 - Changed path of sshd_config to full path
 * 10/18/17 - Added double space after block quotes to format them for Markdown
+* 10/18/17 - Changed quotes to clarify how to restart Apache
 
 Configuration
 -------------
@@ -113,7 +114,7 @@ Installation
 * Install python wsgi dependencies:
 	- "sudo apt-get install python-setuptools"
 	- "sudo apt-get install libapache2-mod-wsgi"
-	- "restart apache2: sudo service apache2 restart"
+	- restart apache2: "sudo service apache2 restart"
 * Install PostgreSQL:
 	- "sudo apt-get install postgresql"
 	- login: "sudo -i -u postgres"
