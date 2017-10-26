@@ -9,7 +9,7 @@ catalog app used a combination of Python 2.7, Flask, SQLalchemy, and SQLite.
 To better work with Apache2, the original catalog app was modified to use 
 PostgreSQL/psycopg2, along with other minor modifications.
 
-App address: http://ec2-107-23-27-33.compute-1.amazonaws.com/
+App address: http://ec2-54-175-196-141.compute-1.amazonaws.com/
 
 IP Address: 107.23.27.33:2200
 
@@ -21,6 +21,7 @@ Version History
 * 10/18/17 - Added double space after block quotes to format them for Markdown
 * 10/18/17 - Changed quotes to clarify how to restart Apache
 * 10/18/17 - Used backticks to display closing tags in Markdown
+* 10/26/17 - Changed URL to most recent deployment
 
 Configuration
 -------------
