@@ -29,6 +29,7 @@ Version History
 * 10/26/17 - Changed URL to most recent deployment
 * 11/01/17 - Added configure.sh shell script with ufw configuration
 * 11/01/17 - Added installation of most apt-get (non-pip) packages
+* 11/02/17 - Added installation of Python/pip packages
 
 List of Files
 -------------

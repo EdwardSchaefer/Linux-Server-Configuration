@@ -27,4 +27,15 @@ sudo apt-get install python-sqlalchemy -y
 #Install psycopg2:
 sudo apt-get install python-psycopg2 -y
 #Install PostgreSQL:
-sudo apt-get install postgresql -y
+sudo apt-get install postgresql -yt
+
+#upgrade pip
+pip install --upgrade pip
+#install Flask:
+sudo pip install Flask
+#upgrade Google API Python client
+sudo pip install --upgrade google-api-python-client
+#install requests
+sudo pip install requests
+#Install mod_wsgi into Python:
+sudo pip install mod_wsgi
