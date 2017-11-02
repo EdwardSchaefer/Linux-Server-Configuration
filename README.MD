@@ -28,6 +28,7 @@ Version History
 * 10/18/17 - Used backticks to display closing tags in Markdown
 * 10/26/17 - Changed URL to most recent deployment
 * 11/01/17 - Added configure.sh shell script with ufw configuration
+* 11/01/17 - Added installation of most apt-get (non-pip) packages
 
 List of Files
 -------------
