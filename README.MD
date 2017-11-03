@@ -31,6 +31,8 @@ Version History
 * 11/01/17 - Added installation of most apt-get (non-pip) packages
 * 11/02/17 - Added installation of Python/pip packages
 * 11/03/17 - Scripted apache2 configuration file, enabled site
+* 11/03/17 - Changed servername/serveradmin to localhost, disabled/removed 
+	default apache site
 
 List of Files
 -------------

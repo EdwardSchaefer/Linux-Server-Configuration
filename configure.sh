@@ -48,8 +48,8 @@ sudo git clone -b linux_deployment https://github.com/EdwardSchaefer/Item-Catalo
 sudo touch /etc/apache2/sites-available/catalog.conf
 cat << EOF > /etc/apache2/sites-available/catalog.conf
 <VirtualHost *:80>
-ServerName 107.23.27.33
-ServerAdmin admin@107.23.27.33
+ServerName localhost
+ServerAdmin admin@localhost
 WSGIScriptAlias / /var/www/html/catalog.wsgi
 <Directory /var/www/html/wsgiscripts/>
 Order allow,deny
@@ -66,6 +66,10 @@ CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 EOF
 
+#remove default site
+sudo a2dissite 000-default.conf
+sudo rm /etc/apache2/sites-available/000-default.conf
+
+#enable catalog site
 sudo a2ensite catalog.conf
 sudo a2service apache2 restart
-
