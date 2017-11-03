@@ -27,7 +27,7 @@ sudo apt-get install python-sqlalchemy -y
 #Install psycopg2:
 sudo apt-get install python-psycopg2 -y
 #Install PostgreSQL:
-sudo apt-get install postgresql -yt
+sudo apt-get install postgresql -y
 
 #upgrade pip
 pip install --upgrade pip
@@ -35,7 +35,37 @@ pip install --upgrade pip
 sudo pip install Flask
 #upgrade Google API Python client
 sudo pip install --upgrade google-api-python-client
-#install requests
+#install
 sudo pip install requests
 #Install mod_wsgi into Python:
 sudo pip install mod_wsgi
+
+#clone the repository
+cd /var/www/html
+sudo git clone -b linux_deployment https://github.com/EdwardSchaefer/Item-Catalog.git catalog
+
+#set up the site in apache
+sudo touch /etc/apache2/sites-available/catalog.conf
+cat << EOF > /etc/apache2/sites-available/catalog.conf
+<VirtualHost *:80>
+ServerName 107.23.27.33
+ServerAdmin admin@107.23.27.33
+WSGIScriptAlias / /var/www/html/catalog.wsgi
+<Directory /var/www/html/wsgiscripts/>
+Order allow,deny
+Allow from all
+</Directory>
+Alias /static /var/www/html/catalog/static
+<Directory /var/www/html/catalog/static/>
+Order allow,deny
+Allow from all
+</Directory>
+ErrorLog ${APACHE_LOG_DIR}/error.log
+LogLevel warn
+CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+EOF
+
+sudo a2ensite catalog.conf
+sudo a2service apache2 restart
+

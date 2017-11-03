@@ -30,6 +30,7 @@ Version History
 * 11/01/17 - Added configure.sh shell script with ufw configuration
 * 11/01/17 - Added installation of most apt-get (non-pip) packages
 * 11/02/17 - Added installation of Python/pip packages
+* 11/03/17 - Scripted apache2 configuration file, enabled site
 
 List of Files
 -------------
