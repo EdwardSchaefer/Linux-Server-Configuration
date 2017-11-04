@@ -66,6 +66,15 @@ CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 EOF
 
+#setup postgres database
+sudo -i -u postgres
+psql
+CREATE USER catalog WITH PASSWORD 'test123';
+ALTER USER catalog CREATEDB;
+CREATE DATABASE guitars;
+\\q
+logout
+
 #remove default site
 sudo a2dissite 000-default.conf
 sudo rm /etc/apache2/sites-available/000-default.conf

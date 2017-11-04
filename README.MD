@@ -33,6 +33,7 @@ Version History
 * 11/03/17 - Scripted apache2 configuration file, enabled site
 * 11/03/17 - Changed servername/serveradmin to localhost, disabled/removed 
 	default apache site
+* 11/03/17 - Scripted setting up PostgreSQL database
 
 List of Files
 -------------
