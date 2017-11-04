@@ -42,7 +42,7 @@ sudo pip install mod_wsgi
 
 #clone the repository
 cd /var/www/html
-sudo git clone -b linux_deployment https://github.com/EdwardSchaefer/Item-Catalog.git catalog
+sudo git clone https://github.com/EdwardSchaefer/Item-Catalog.git catalog
 
 #set up the site in apache
 sudo touch /etc/apache2/sites-available/catalog.conf

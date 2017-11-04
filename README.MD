@@ -34,6 +34,7 @@ Version History
 * 11/03/17 - Changed servername/serveradmin to localhost, disabled/removed 
 	default apache site
 * 11/03/17 - Scripted setting up PostgreSQL database
+* 11/03/17 - Set git clone of Item-Catalog repo to default branch
 
 List of Files
 -------------
