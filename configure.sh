@@ -81,4 +81,4 @@ sudo rm /etc/apache2/sites-available/000-default.conf
 
 #enable catalog site
 sudo a2ensite catalog.conf
-sudo a2service apache2 restart
+sudo service apache2 restart

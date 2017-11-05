@@ -35,7 +35,8 @@ Version History
 	default apache site
 * 11/03/17 - Scripted setting up PostgreSQL database
 * 11/03/17 - Set git clone of Item-Catalog repo to default branch
-* 11/14/17 - Renamed folder to clone into from 'catalog' to 'html' 
+* 11/04/17 - Renamed folder to clone into from 'catalog' to 'html'
+* 11/04/17 - Fixed typo 'a2service' to 'service'
 
 List of Files
 -------------
