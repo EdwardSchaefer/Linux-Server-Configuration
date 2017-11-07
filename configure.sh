@@ -41,7 +41,8 @@ sudo pip install requests
 sudo pip install mod_wsgi
 
 #clone the repository
-cd /var/www/html
+cd /var/www
+sudo rm -rf html
 sudo git clone https://github.com/EdwardSchaefer/Item-Catalog.git html
 
 #set up the site in apache

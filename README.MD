@@ -38,6 +38,8 @@ Version History
 * 11/04/17 - Renamed folder to clone into from 'catalog' to 'html'
 * 11/04/17 - Fixed typo 'a2service' to 'service'
 * 11/06/17 - Made PostgreSQL commands non-interactive to work with shell script
+* 11/06/17 - Changed git clone directory structure to conform to path of 
+	json client secrets
 
 List of Files
 -------------
