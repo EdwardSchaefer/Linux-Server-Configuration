@@ -67,13 +67,9 @@ CustomLog ${APACHE_LOG_DIR}/access.log combined
 EOF
 
 #setup postgres database
-sudo -i -u postgres
-psql
-CREATE USER catalog WITH PASSWORD 'test123';
-ALTER USER catalog CREATEDB;
-CREATE DATABASE guitars;
-\\q
-logout
+sudo -u postgres psql -c "CREATE USER catalog WITH PASSWORD 'test123'";
+sudo -u postgres psql -c "ALTER USER catalog CREATEDB";
+sudo -u postgres psql -c "CREATE DATABASE guitars";
 
 #remove default site
 sudo a2dissite 000-default.conf
