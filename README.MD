@@ -40,6 +40,7 @@ Version History
 * 11/06/17 - Made PostgreSQL commands non-interactive to work with shell script
 * 11/06/17 - Changed git clone directory structure to conform to path of 
 	json client secrets
+* 11/07/17 - Added python commands to deploy the application
 
 List of Files
 -------------

@@ -72,6 +72,10 @@ sudo -u postgres psql -c "CREATE USER catalog WITH PASSWORD 'test123'";
 sudo -u postgres psql -c "ALTER USER catalog CREATEDB";
 sudo -u postgres psql -c "CREATE DATABASE guitars";
 
+#deploy the application
+python /var/www/html/catalog/database_setup.py
+sudo python /var/www/html/catalog/guitars.py
+
 #remove default site
 sudo a2dissite 000-default.conf
 sudo rm /etc/apache2/sites-available/000-default.conf
