@@ -42,6 +42,7 @@ Version History
 	json client secrets
 * 11/07/17 - Added python commands to deploy the application
 * 11/08/17 - Added user 'grader' and gave sudo privileges
+* 11/08/17 - Create and modify permissions/owners/groups for ssh folders
 
 List of Files
 -------------

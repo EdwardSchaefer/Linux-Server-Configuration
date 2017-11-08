@@ -16,7 +16,18 @@ cat << EOF | sudo tee -a /etc/sudoers.d/grader
 grader ALL=(ALL) NOPASSWD:ALL
 EOF
 sudo chmod 0440 /etc/sudoers.d/grader
-
+#create ssh directory and authorized_keys file for grader
+sudo mkdir /home/grader/.ssh
+sudo touch /home/grader/.ssh/authorized_keys
+#set ownership/groups/permissions on ssh files and folders
+sudo chmod 700 /home/ubuntu/.ssh
+sudo chmod 644 /home/ubuntu/.ssh/authorized_keys
+sudo chmod 700 /home/grader/.ssh
+sudo chmod 644 /home/grader/.ssh/authorized_keys
+sudo chown grader /home/grader/.ssh
+sudo chgrp grader /home/grader/.ssh
+sudo chown grader /home/grader/.ssh/authorized_keys
+sudo chgrp grader /home/grader/.ssh/authorized_keys
 
 #Update packages:
 sudo apt-get update -y
