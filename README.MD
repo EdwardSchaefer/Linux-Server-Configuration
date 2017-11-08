@@ -41,6 +41,7 @@ Version History
 * 11/06/17 - Changed git clone directory structure to conform to path of 
 	json client secrets
 * 11/07/17 - Added python commands to deploy the application
+* 11/08/17 - Added user 'grader' and gave sudo privileges
 
 List of Files
 -------------

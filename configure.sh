@@ -8,6 +8,16 @@ sudo ufw allow www
 sudo ufw allow ntp
 sudo ufw enable
 
+#add user 'grader' with no password or personal info
+sudo adduser --disabled-password --gecos "" grader
+#give sudo to grader
+sudo touch /etc/sudoers.d/grader
+cat << EOF | sudo tee -a /etc/sudoers.d/grader
+grader ALL=(ALL) NOPASSWD:ALL
+EOF
+sudo chmod 0440 /etc/sudoers.d/grader
+
+
 #Update packages:
 sudo apt-get update -y
 #Install python 2.7:
