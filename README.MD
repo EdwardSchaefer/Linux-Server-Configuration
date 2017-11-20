@@ -43,6 +43,8 @@ Version History
 * 11/07/17 - Added python commands to deploy the application
 * 11/08/17 - Added user 'grader' and gave sudo privileges
 * 11/08/17 - Create and modify permissions/owners/groups for ssh folders
+* 11/20/17 - Change permissions for 'img' directory so that images can be 
+	uploaded via apache2 in README.md and configure.sh; added citation
 
 List of Files
 -------------
@@ -177,7 +179,11 @@ Site Setup
 		>sys.path.insert(0,"/var/www/html/")  
 		>  
 		>from catalog import app as application  
-		>application.secret_key = 'super_secret_key'  
+		>application.secret_key = 'super_secret_key'
+
+* Change permissions for 'img' directory so that images can be uploaded via apache2 
+	- "sudo chown -R www-data /var/www/html/catalog/static/img"
+
 * Setup a site for the app in apache:
 	- "cd /etc/apache2/sites-available"  
 	- "sudo touch catalog.conf"  
@@ -242,3 +248,4 @@ Sources Used
 * [How To Deploy a Flask Application on an Ubuntu VPS](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps)
 * [mod_wsgi quickstart](http://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html)
 * [Project 5 resources from Kirk Brunson](https://discussions.udacity.com/t/project-5-resources/28343)
+* [summary Common problems with WSGI applications.](https://code.google.com/archive/p/modwsgi/wikis/ApplicationIssues.wiki#Access_Rights_Of_Apache_User) 

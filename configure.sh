@@ -66,6 +66,9 @@ cd /var/www
 sudo rm -rf html
 sudo git clone https://github.com/EdwardSchaefer/Item-Catalog.git html
 
+#Change permissions for 'img' directory so that images can be uploaded via apache2
+sudo chown -R www-data /var/www/html/catalog/static/img
+
 #set up the site in apache
 sudo touch /etc/apache2/sites-available/catalog.conf
 cat << EOF > /etc/apache2/sites-available/catalog.conf
